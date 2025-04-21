@@ -31,7 +31,6 @@ namespace CSLight
             var countYura = persons.Count(player => player.FirstName == ("Юрий"));
             var FirstLastName = persons.Select(player => $"{player.FirstName} {player.LastName}").ToList();
             var AverageAge = persons.Average(player => player.Age);
-            //var HasPetya = names.Any(i => i == ("Петя"));
             Console.WriteLine($"Сколько юр{countYura}");
             Console.WriteLine($"Имя фамилия {string.Join("\n", FirstLastName)}");
             Console.WriteLine($"Средний возраст{AverageAge}\n");
