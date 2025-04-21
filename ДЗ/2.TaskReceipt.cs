@@ -12,6 +12,7 @@ namespace Cslight.ДЗ
         {
         AuthorReciept author = new AuthorReciept("Вася", DateTime.Now);
         Receipt gavno = new Receipt("Борщ", "всё в воду и помешать", "борщевые ингридиенты", author, "сварить и съесть", 0.2, ReceiptCategory.soup);
+        Receipt protein = new Receipt("Протеин", "молоко + протик", "протик и мовочко", author, "миксером смешать", 9.8, ReceiptCategory.cocktail);
         }
         
 
