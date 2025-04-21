@@ -1,29 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Cslight.ДЗ
+var arr = new[] { 1, 2, 3, 4, 5, 6 };
+var query = arr
+.Select(el >
 {
-    internal class Class9
-    {
-        public static void Main(string[] args)
-        {
-            HashSet<A> @set = new HashSet<A>();
-            var el1 = new A { Value = 1 };
-            var el2 = new A { Value = 1 };
-            @set.Add(el1);
-            Console.WriteLine(@set.Contains(el2));
-        }
-        class A
-        {
-            public int Value { get; set; }
-            public override int GetHashCode()
-            {
-                Console.WriteLine("GetHashCode");
-                return Value;
-            }
-        }
-    }
-}
+Console.WriteLine(el);
+return el;
+})
+.Where(el > el > 4)
+.Select(el >
+{
+var res = el * 2;
+Console.WriteLine(res);
+return res;
+});
+Console.WriteLine("Output");
+_ = query.ToArray();
+-------------------------------------------------это не проверять, с Андреем уже разбирали-----------------
