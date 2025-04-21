@@ -46,8 +46,7 @@ namespace Cslight
                 {
                     query = query.Where(x => x.LastName == lastName);
                 }
-                // Фильтрация по firstName, lastName, age, каждое поле проверяется на null
-                // и фильтр по нему добавляется, только если оно не null.
+
                 return query.ToList();
             }
         }
