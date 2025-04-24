@@ -10,23 +10,19 @@ namespace Cslight.ДЗ
     {
         public static void Main(string[] args)
         {
-
             List<Animal> animals = new List<Animal> { new Rabbit(), new Wolf(), new Fox() };
             foreach (var animal in animals)
             {
                 animal.Run();
-
             }
         }
     }
-
     abstract class Animal
     {
         public virtual void Run()
         {
             Console.WriteLine("I am animal and I am running for my life! ");
         }
-
     }
     class Rabbit : Animal
     {
@@ -35,14 +31,9 @@ namespace Cslight.ДЗ
 
             Console.WriteLine("I am running from predators ");
         }
-
     }
     class Wolf : Animal
     {
-        public override void Run()
-        {
-            base.Run();
-        }
     }
     class Fox : Animal
     {

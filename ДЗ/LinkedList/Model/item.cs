@@ -5,29 +5,21 @@ using System.Runtime.Remoting.Messaging;
 
 namespace Cslight.Model    
 {
-
     // Ячейка списка
-
     public class Item<T>
     {
-        private T data = default(T);
-
+        private T _data = default(T);
         // Данные хранимые в ячейке списка
-
-
-        private Item<T> next = null;
-
+        private Item<T> _next = null;
         public T Data
         {
-            get => data;
+            get => _data;
             set{ if (value != null) 
-                    data = value;
+                    _data = value;
                 else 
-                    throw new ArgumentNullException(nameof(value)); }
+                    throw new ArgumentNullException(nameof(Data));}
         }
-
         // След ячейка списка
-
         public Item<T> Next { get ; set; }
 
         public Item(T data)
@@ -39,8 +31,5 @@ namespace Cslight.Model
         {
             return Data.ToString();
         }
-        
-
-
     }
 }

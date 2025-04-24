@@ -10,7 +10,6 @@ namespace Cslight
     {
         public static void Main(string[] args)
         {
-
             var list = new List<int>();
             var i = 10;
             var query = list.Where(x => x == i).Where(x => x < 20);
@@ -23,11 +22,10 @@ namespace Cslight
             Console.WriteLine(result.Count); // 1
             Console.WriteLine(result.FirstOrDefault()); // 15
 
-
             var funcs = new List<Func<int, int>>();
-            for (int i = 0; i < 10; i++)
+            for (int j = 0; j < 10; j++)
             {
-                int save = i;//сохраняем значение i в другой переменной, потому что i замыкается в foreach при i =10
+                int save = j;//сохраняем значение i в другой переменной, потому что i замыкается в foreach при i =10
                 funcs.Add(x => x + save);
             }
             foreach (var func in funcs)
@@ -35,7 +33,6 @@ namespace Cslight
                 Console.WriteLine(func(1)); // 11 Было стало 12345678910
 
             }
-
 
         }
     }

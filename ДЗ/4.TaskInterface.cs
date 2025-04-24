@@ -22,36 +22,28 @@ namespace Cslight.ДЗ
         {
             string ReadFromSource();
         }
-
         class ConstantReader : IInputReader
         {
             public string ReadFromSource() => "5";
-
         }
         class ConsoleReader : IInputReader
         {
             public string ReadFromSource() => Console.ReadLine();
-
         }
         class InegerParser
         {
-            public IInputReader Ineger;
-
-            public InegerParser(IInputReader LEVA)
+            private readonly IInputReader _ineger;
+            public InegerParser(IInputReader Reader)
             {
-                Ineger = LEVA;
+                _ineger = Reader;
             }
-
-
             public int Parse()
             {
-                var inputedValue = Ineger.ReadFromSource();
+                var inputedValue = _ineger.ReadFromSource();
 
                 return int.Parse(inputedValue);
             }
-
         }
     }
-
 }
 

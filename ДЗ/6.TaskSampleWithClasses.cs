@@ -12,7 +12,6 @@ using System.Threading;
 using static System.Net.WebRequestMethods;
 
 namespace CSLight
-
 {
     internal class Program
     {
@@ -27,7 +26,6 @@ namespace CSLight
                 new Person { FirstName = "Виталий", LastName = "Гачиев", Age = 40 },
                 new Person { FirstName = "Юрий", LastName = "Гагарин", Age = 34 }
              };
-
             var countYura = persons.Count(player => player.FirstName == ("Юрий"));
             var FirstLastName = persons.Select(player => $"{player.FirstName} {player.LastName}").ToList();
             var AverageAge = persons.Average(player => player.Age);
@@ -38,15 +36,12 @@ namespace CSLight
             foreach (var group in groupAge)
             {
                 Console.WriteLine(group.Key);
-
                 foreach (var person in group)
                 {
                     Console.WriteLine(person.FirstName);
                 }
                 Console.WriteLine(); // для разделения между группами
             }
-
-
         }
         public class Person
         {
@@ -54,8 +49,5 @@ namespace CSLight
             public string LastName { get; set; }
             public int Age { get; set; }
         }
-
-
-
     }
 }

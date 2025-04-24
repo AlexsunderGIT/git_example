@@ -16,8 +16,7 @@ namespace Cslight
             public static void Main(string[] args)
             {
             }
-
-            List<Person> persons = new List<Person>()
+            public List<Person> persons = new List<Person>()
             {
             new Person { FirstName = "Виталий", LastName = "Цаль", Age = 33 },
             new Person { FirstName = "Куджо", LastName = "Джотаро", Age = 40 },
@@ -31,7 +30,6 @@ namespace Cslight
             string firstName = null,
             string lastName = null,
             int? age = null)
-
             {
                 IEnumerable<Person> query = all;
                 if (firstName != null)
@@ -46,7 +44,6 @@ namespace Cslight
                 {
                     query = query.Where(x => x.LastName == lastName);
                 }
-
                 return query.ToList();
             }
         }
@@ -56,7 +53,5 @@ namespace Cslight
             public string LastName { get; set; }
             public int Age { get; set; }
         }
-
     }
-
 }

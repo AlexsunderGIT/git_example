@@ -6,7 +6,7 @@ using Cslight.Model;
 namespace Cslight
 {
      class Program1
-    {
+     {
         static void Main(string[] args)
         {
             var list = new Model.LinkedList<int>();
@@ -24,19 +24,14 @@ namespace Cslight
             list.Replace(9,-1);
             list.Delete(3);
 
-
-
             Console.WriteLine($"длина списка: {list.Count} элементов");
             Console.WriteLine($"хапи-хапи-хапи\nПИЗДАТО");
-
-
 
             foreach (var item in list)
             {
                 Console.Write(item + " ");
             }
             Console.WriteLine();
-
         }
-    }
+     }
 }

@@ -19,8 +19,6 @@ namespace Cslight
 
             Console.WriteLine(map[el1]);
             Console.WriteLine(map[el2]);
-
-
         }
         class B
         {
@@ -28,7 +26,6 @@ namespace Cslight
             private readonly int _x = new Random().Next();
             //public override int GetHashCode() => _random.Next();
             public override int GetHashCode() => _x;
-
             public override bool Equals(object obj) => true;
             ////тут прекол в дебаге всё окей(12,14), а при обычном компилировании, компилятор даёт ёбу и ебашит (14,14) Андрюха говорил компилятор пидрила
 

@@ -15,7 +15,6 @@ namespace Cslight
             var el2 = new A { Value = 1 };
             @set.Add(el1);
             Console.WriteLine(@set.Contains(el2));
-
         }
         struct A
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Cslight.ДЗ.TaskReceipt;
 
 namespace Cslight.ДЗ
 {
@@ -10,60 +11,77 @@ namespace Cslight.ДЗ
     {
         static void Main(string[] args)
         {
-        AuthorReciept author = new AuthorReciept("Вася", DateTime.Now);
-        Receipt gavno = new Receipt("Борщ", "всё в воду и помешать", "борщевые ингридиенты", author, "сварить и съесть", 0.2, ReceiptCategory.soup);
-        Receipt protein = new Receipt("Протеин", "молоко + протик", "протик и мовочко", author, "миксером смешать", 9.8, ReceiptCategory.cocktail);
+        Author author = new Author("Вася", DateTime.Now);
+        Recipe gavno = new Recipe("Борщ", "всё в воду и помешать", "борщевые ингридиенты", author, "сварить и съесть", 0.2, RecipeCategory.Soup);
+        Recipe protein = new Recipe("Протеин", "молоко + протик", "протик и мовочко", author, "миксером смешать", 9.8, RecipeCategory.Cocktail);
         }
-        
-
-
-        class Receipt
+        private class Recipe
         {
-
-            readonly string receiptName;
-            readonly string description;
-            readonly string ingredients;
-            readonly string algorithmCooking;
-            public AuthorReciept author;
-            public ReceiptCategory category;
-            public double rating;
-            public Receipt(string name, string desc, string ingred, AuthorReciept authorConstructor, string algCook, double rate, ReceiptCategory recCat)
+            public string Name { get; set; }
+            public string Description { get; set; }
+            public string Ingredients { get; set; }
+            public string CookingAlgorithm { get; set; }
+            public Author Author { get; set; }
+            public double Rating { get; set; }
+            public RecipeCategory Category { get; set; }
+            public Recipe
+                (string name, 
+                string description, 
+                string ingredient, 
+                Author author, 
+                string cookingAlgorithm, 
+                double rating,
+                RecipeCategory category)
             {
-                receiptName = name;
-                description = desc;
-                ingredients = ingred;
-                author = authorConstructor;
-                algorithmCooking = algCook;
-                rating = rate;
-                recCat = category;
-
+                Name = name;
+                Description = description;
+                Ingredients = ingredient;
+                Author = author;
+                CookingAlgorithm = cookingAlgorithm;
+                Rating = rating;
+                Category = category;
+                Author.AddRecipe(this);
             }
         }
-
-
-        public enum ReceiptCategory
+        public enum RecipeCategory
         {
-
-            soup,
-            dessert,
-            cocktail,
-            mainDish,
-            snack,
-            alсoholCocktail
+            Soup,
+            Dessert,
+            Cocktail,
+            MainDish,
+            Snack,
+            AlсoholCocktail
         }
-        class AuthorReciept
+        class Author
         {
-            readonly string authorName;
-            public DateTime createReceipt = DateTime.Now;
-            public double averageRatingOfAuthor;
-            public List<Receipt> receiptCategorie = new List<Receipt>();
-
-            public AuthorReciept(string name, DateTime date)
+            public string Name { get; set; }
+            public DateTime CreationDate { get; set; }
+            public List<Recipe> Recipes { get; set; } = new List<Recipe>();
+            public double AverageRating
             {
-                authorName = name;
-                date = createReceipt;
+                get
+                {
+                    if (Recipes.Count == 0)
+                    {
+                        return 0;
+                    }
+                    double total = 0;
+                    foreach (var recipe in Recipes)
+                    {
+                        total += recipe.Rating;
+                    }
+                    return total / Recipes.Count;
+                }
             }
-
+            public Author(string name, DateTime creationDate)
+            {
+                Name = name;
+                CreationDate = creationDate;
+            }
+            public void AddRecipe(Recipe recipe)
+            {
+                Recipes.Add(recipe);
+            }
         }
     }
 }

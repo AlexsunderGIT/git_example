@@ -5,15 +5,10 @@ using System.Collections.Generic;
 
 namespace Cslight.Model
 {
-
     // Односвязный список
-
-
     public class LinkedList<T> : IEnumerable
     {
-
         // Первый элемент списка 
-
         public Item<T> Head { get; private set; }
 
         //Последний элемент списка
@@ -27,17 +22,14 @@ namespace Cslight.Model
             Clear();
         }
 
-
         //Создание списка с нач элементом
         public LinkedList(T data)
         {
-
             SetHeadAndTail(data);
         }
         //Добавление данные в конец списка
         public void Add(T data)
         {
-
             if (Tail != null)
             {
                 var item = new Item<T>(data);
@@ -96,10 +88,8 @@ namespace Cslight.Model
         //Вставление данных после искомого значения
         public void InsertAfter(T target, T data)
         {
-
             if (Head != null)
             {
-
                 var current = Head;
                 while (current != null)
                 {
@@ -116,11 +106,6 @@ namespace Cslight.Model
                         current = current.Next;
                     }
                 }
-
-            }
-            else
-            {
-
             }
         }
         //Очищение списка
@@ -130,7 +115,6 @@ namespace Cslight.Model
             Tail = null;
             Count = 0;
         }
-
 
         private void SetHeadAndTail(T data)
         {
@@ -158,7 +142,7 @@ namespace Cslight.Model
         public void Replace(int targetIndex, T data)
         {
             if (targetIndex < 0)
-                throw new ArgumentOutOfRangeException(nameof(targetIndex), "только положительный индекс");
+            throw new ArgumentOutOfRangeException(nameof(targetIndex), "только положительный индекс");
 
             Item<T> current = Head;
             Item<T> prev = null;
@@ -172,7 +156,7 @@ namespace Cslight.Model
             }
 
             if (current == null)
-                throw new ArgumentOutOfRangeException(nameof(targetIndex), "индекс за пределеами листа");
+            throw new ArgumentOutOfRangeException(nameof(targetIndex), "индекс за пределеами листа");
 
             Item<T> newItem = new Item<T>(data);
 
@@ -187,7 +171,7 @@ namespace Cslight.Model
                 prev.Next = newItem;
             }
             if (newItem.Next == null)
-                Tail = newItem;
+            Tail = newItem;
         }
     }
 }
