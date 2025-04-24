@@ -5,29 +5,22 @@ using System.Collections.Generic;
 
 namespace Cslight.Model
 {
-    // Односвязный список
+
     public class LinkedList<T> : IEnumerable
     {
-        // Первый элемент списка 
         public Item<T> Head { get; private set; }
-
-        //Последний элемент списка
         public Item<T> Tail { get; private set; }
-
-        //Количество элементов
         public int Count { get; private set; }
-        //Создание пустого списка
+
         public LinkedList()
         {
             Clear();
         }
-
-        //Создание списка с нач элементом
         public LinkedList(T data)
         {
             SetHeadAndTail(data);
         }
-        //Добавление данные в конец списка
+
         public void Add(T data)
         {
             if (Tail != null)
@@ -42,7 +35,6 @@ namespace Cslight.Model
                 SetHeadAndTail(data);
             }
         }
-        //Удаление первое вхождение данных в список
         public void Delete(T data)
         {
             if (Head != null)
@@ -75,7 +67,6 @@ namespace Cslight.Model
                 SetHeadAndTail(data);
             }
         }
-        // Добавление данных в начале списка
         public void AppendHead(T data)
         {
             var item = new Item<T>(data)
@@ -85,7 +76,6 @@ namespace Cslight.Model
             Head = item;
             Count++;
         }
-        //Вставление данных после искомого значения
         public void InsertAfter(T target, T data)
         {
             if (Head != null)
@@ -108,7 +98,6 @@ namespace Cslight.Model
                 }
             }
         }
-        //Очищение списка
         public void Clear()
         {
             Head = null;
@@ -123,8 +112,6 @@ namespace Cslight.Model
             Tail = item;
             Count = 1;
         }
-
-        //Получение перечисление всех элементов списка
         public IEnumerator GetEnumerator()
         {
             var current = Head;
@@ -134,7 +121,6 @@ namespace Cslight.Model
                 current = current.Next;
             }
         }
-
         public override string ToString()
         {
             return "Linked List " + Count + " элементов";
