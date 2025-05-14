@@ -68,6 +68,8 @@ app.MapGet("/user/{user.Id}/notes", (int userId, [AsParameters] FiltredSortedNot
 
 app.MapPost("/note", ([FromBody] NoteRequest request) =>
 {
+    if (string.IsNullOrWhiteSpace(request.Title))
+        return Results.BadRequest("Title is required");
     var user = users.FirstOrDefault(V => V.Id == request.UserId);
     if (user == null)
         return Results.NotFound("user not found");
@@ -142,9 +144,9 @@ public class Note
 }
 public enum Priority
 {
-    lowest,
-    middle,
-    higher
+    low,
+    mid,
+    high
 }
 public class UserRequest
 {
