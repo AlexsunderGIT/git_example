@@ -22,9 +22,9 @@ namespace ConsoleProject.NET.Models
         public bool IsCompleted { get; set; }
         [Required]
         public Priority Priority { get; set; }
-        [Required]
-        public int UserId { get; set; }
-        public User User { get; set; }
+        //[Required]
+        //public int UserId { get; set; }
+        //public User User { get; set; }
     }
     public enum Priority
     {

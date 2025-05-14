@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ConsoleProject.NET.Data;
 using ConsoleProject.NET.Exceptions;
+using System.Xml.Linq;
 
 namespace ConsoleProject.NET.Controllers
 {
@@ -21,7 +22,7 @@ namespace ConsoleProject.NET.Controllers
         {
             var id = DataStorage.Users.Count;
             if (string.IsNullOrWhiteSpace(request.Name))
-                return BadRequest("Name is required");
+                throw new NameIsRequired("Name is required");
             var user = new User { 
                 Id = id,
                 Name = request.Name,

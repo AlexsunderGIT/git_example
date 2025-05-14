@@ -8,5 +8,13 @@
     {
         public UserNotFoundException() : base($"User not found") { }
     }
+    public class NameIsRequired : Exception
+    {
+        public NameIsRequired(string message) : base($"Name is required") { }
+    }
+    public class TitleIsRequired : Exception
+    {
+        public TitleIsRequired() : base($"Title is required") { }
+    }
 
 }

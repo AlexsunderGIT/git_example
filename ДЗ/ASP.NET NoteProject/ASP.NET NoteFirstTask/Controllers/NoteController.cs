@@ -23,6 +23,8 @@ namespace ConsoleProject.NET.Controllers
         public ActionResult<int> Add([FromBody] NoteRequest request)
         {
             var noteId = DataStorage.Notes.Count;
+            if (string.IsNullOrWhiteSpace(request.Title))
+                throw new TitleIsRequired();
             var note = new Note
             {
                 Id = DataStorage.Notes.Count,
@@ -70,7 +72,6 @@ namespace ConsoleProject.NET.Controllers
             {
                 throw new NoteNotFoundException();
             }
-
             DataStorage.Notes.Remove(note);
             return NoContent(); 
         }
