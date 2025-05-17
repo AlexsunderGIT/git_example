@@ -12,7 +12,7 @@ namespace ConsProj33.Repositories
 
         public Note? GetById(int id)
         => _notes.FirstOrDefault(x => x.Id == id);
-
+        //òðàëàëàëàëàëàëàëàëàë
         public int Add(Note note)
         {
             note.Id = _idCounter++;
