@@ -2,6 +2,7 @@ using AutoMapper;
 using ConsProj33.Models;
 using ConsProj33.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using ConsProj33.Exceptions;
 
 namespace ConsProj33.Dto_Vm
 {
@@ -9,6 +10,7 @@ namespace ConsProj33.Dto_Vm
     [Route("api/[controller]")]
     public class NoteController : ControllerBase
     {
+
         private readonly INoteRepository _noteRepository;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
@@ -23,7 +25,7 @@ namespace ConsProj33.Dto_Vm
         public ActionResult<IEnumerable<NoteVM>> GetByUser(int userId)
         {
             if (_userRepository.GetById(userId) == null)
-                return NotFound("User not found");
+                throw new UserNotFoundException();
 
             var notes = _noteRepository.GetByUserId(userId);
                 return Ok(_mapper.Map<IEnumerable<NoteVM>>(notes));
@@ -32,19 +34,20 @@ namespace ConsProj33.Dto_Vm
         public ActionResult<NoteVM> Create([FromBody] NoteAddDto dto)
         {
             if (_userRepository.GetById(dto.UserId) == null)
-                return BadRequest("User not found");
-
+                throw new UserNotFoundException();
+            if (string.IsNullOrWhiteSpace(dto.Title))
+                throw new TitleIsRequired();
             var note = _mapper.Map<Note>(dto);
             var id = _noteRepository.Add(note);
 
-            return CreatedAtAction(nameof(GetByUser), new { id }, _mapper.Map<NoteVM>(note));
+            return Ok(id);
         }
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody] NoteUpdateDto dto)
         {
             var note = _noteRepository.GetById(id);
             if (note == null)
-                return NotFound("Note not found");
+                throw new NoteNotFoundException();
             _mapper.Map(dto, note);
             _noteRepository.Update(note);
             return NoContent();
@@ -56,7 +59,7 @@ namespace ConsProj33.Dto_Vm
             var note = _noteRepository.GetById(id);
             if (note == null)
             {
-                return NotFound("Note not found");
+                throw new NoteNotFoundException();
             }
             _noteRepository.Delete(id);
             return NoContent();
