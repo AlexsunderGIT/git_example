@@ -8,7 +8,7 @@ public class UserRepository : IUserRepository
     private readonly List<User> _users = new();
     private int _idCounter;
     public IReadOnlyList<User> GetUsers() => _users;
-    public User? GetById(int id) 
+    public User GetById(int id) 
     {
         //
         var user = _users.FirstOrDefault(x => x.Id == id);

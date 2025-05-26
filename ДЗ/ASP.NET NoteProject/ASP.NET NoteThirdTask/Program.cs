@@ -1,14 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using ConsoleProject.NET.Repositories;
 using ConsoleProject.NET.Services;
+using ConsoleProject.NET.Configurations.Mapping;
+using SimpleExample;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddSingleton<IUserRepository, UserRepository>();
-builder.Services.AddSingleton<INoteRepository, NoteRepository>();
-builder.Services.AddAutoMapper(typeof(NoteProfile));
-
-builder.Services.AddControllers();
-builder.Services.AddExceptionHandler<ExceptionHandler>();
+builder.Services.AddInfrastructure();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();

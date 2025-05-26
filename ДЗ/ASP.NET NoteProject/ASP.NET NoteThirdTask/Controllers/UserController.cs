@@ -26,9 +26,6 @@ public class UserController : ControllerBase
     {
         var user = new User { Name = dto.Name, Password = dto.Password };
         var id = _repository.Add(user);
-        
-        //if (string.IsNullOrWhiteSpace(dto.Name))
-        //    throw new NameIsRequired();
         return CreatedAtAction(nameof(GetById), new { id }, id);
     }
     [HttpGet("{id}")]

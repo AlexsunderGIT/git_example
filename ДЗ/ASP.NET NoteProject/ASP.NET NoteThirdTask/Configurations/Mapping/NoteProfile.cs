@@ -2,7 +2,7 @@ using AutoMapper;
 using ConsoleProject.NET.Contract;
 using ConsoleProject.NET.Models;
 
-namespace ConsoleProject.NET.Repositories;
+namespace ConsoleProject.NET.Configurations.Mapping;
 
 public class NoteProfile : Profile
 {
@@ -11,6 +11,9 @@ public class NoteProfile : Profile
         CreateMap<NoteAddDto, Note>()
         .ForMember(dest => dest.IsCompleted, opt => opt.MapFrom(_ => false))
         .ForMember(dest => dest.NoteCreationTime, opt => opt.MapFrom(_ => DateTime.Now));
+
+        CreateMap<NoteUpdateDto, Note>()
+        .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
         CreateMap<Note, NoteVM>();
         CreateMap<NoteUpdateDto, Note>();
