@@ -22,10 +22,4 @@ namespace SimpleExample;
         services.AddSwaggerGen();
         return services;
     }
-    public static IServiceCollection AddApplicationServices(
-        this IServiceCollection services)
-    {
-    services.AddUserRepository();
-    return services;
-    }
  }
