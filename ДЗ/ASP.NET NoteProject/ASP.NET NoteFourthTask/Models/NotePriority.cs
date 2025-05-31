@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Text.Json;
@@ -9,14 +9,10 @@ using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Xml.Linq;
 using System.ComponentModel.DataAnnotations;
-using ConsoleProject.NET.Database;
-
 namespace ConsoleProject.NET.Models;
-
-public class User
+public enum Priority
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public string Password { get; set; }
-    public List<Note> Notes { get; set; } = new();
+    low,
+    mid,
+    high
 }

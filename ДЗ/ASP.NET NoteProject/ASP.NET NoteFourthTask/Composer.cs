@@ -1,29 +1,31 @@
 ﻿using System.Reflection;
 using ConsoleProject.NET;
+using ConsoleProject.NET.Database;
 using ConsoleProject.NET.Repositories;
 using ConsoleProject.NET.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace SimpleExample;
-     public static class Composer
-     {   
-            // Тут будем добавлять инфраструктурные сервисы 
-            // (которые нужны для передачи данных внутри приложения).
-            public static IServiceCollection AddInfrastructure(this IServiceCollection services)
-            {
-
-                // Добавляем автомаппер и регистрируем в нем все классы из
-                // нашего проекта, которые мы наследовали от Profile
-                services.AddAutoMapper(typeof(Composer).Assembly);
-                services.AddExceptionHandler<ExceptionHandler>();
-                services.AddControllers();
-                services.AddSingleton<IUserRepository, UserRepository>();
-                services.AddSingleton<INoteRepository, NoteRepository>();
-                return services;
+public static class Composer
+{
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+    {
+        services.AddAutoMapper(typeof(Composer).Assembly);
+        services.AddDbContext<AppDbContext>(options =>
+        {
+            options.UseNpgsql("Host=localhost;Port=5432;Username=postgres;Password=a2356767Z;Database=NoteProj");
+        });
+        services.AddExceptionHandler<ExceptionHandler>();
+        services.AddControllers();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<INoteRepository, NoteRepository>();
+        return services;
     }
+
     public static IServiceCollection AddSwagger(this IServiceCollection services)
     {
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         return services;
     }
- }
+}

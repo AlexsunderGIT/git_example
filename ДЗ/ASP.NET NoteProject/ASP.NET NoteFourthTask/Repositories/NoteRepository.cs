@@ -1,47 +1,61 @@
 using AutoMapper;
 using ConsoleProject.NET.Contract;
-    using ConsoleProject.NET.Exceptions;
-    using ConsoleProject.NET.Models;
+using ConsoleProject.NET.Database;
+using ConsoleProject.NET.Exceptions;
+using ConsoleProject.NET.Models;
 
-    namespace ConsoleProject.NET.Repositories;
+namespace ConsoleProject.NET.Repositories;
 
-public class NoteRepository(IUserRepository userRepository, IMapper mapper) : INoteRepository
+public class NoteRepository : INoteRepository
 {
-    private readonly List<Note> _notes = new();
-    private int _idCounter;
-    private readonly IMapper _mapper = mapper;
+    private readonly IMapper _mapper;
+    private readonly IUserRepository _userRepository;
+    private readonly AppDbContext _dbContext;
+
+    public NoteRepository(IUserRepository userRepository, AppDbContext dbContext, IMapper mapper)
+    {
+        _userRepository = userRepository;
+        _dbContext = dbContext;
+        _mapper = mapper;
+    }
     public NoteVM? GetById(int id)
     {
-        var note = _notes.FirstOrDefault(z => z.Id == id)
+        var note = _dbContext.Notes.FirstOrDefault(z => z.Id == id)
             ?? throw new NoteNotFoundException(id);
         return _mapper.Map<NoteVM>(note);
     }
 
     public IReadOnlyList<NoteVM> GetByUserId(int userId)
     {
-        userRepository.GetById(userId);
-        return _mapper.Map<IReadOnlyList<NoteVM>>(_notes.Where(o => o.UserId == userId));
+        _userRepository.GetById(userId);
+        var notes = _dbContext.Notes
+            .Where(z  => z.UserId == userId)
+            .ToList();
+        return _mapper.Map<IReadOnlyList<NoteVM>>(notes);
     }
     public int Add(NoteAddDto dto)
     {
-        userRepository.GetById(dto.UserId);
+        _userRepository.GetById(dto.UserId);
         if (string.IsNullOrWhiteSpace(dto.Title))
             throw new TitleIsRequired();
         var note = _mapper.Map<Note>(dto);
-        note.Id = _idCounter++;
-        _notes.Add(note);
+        note.NoteCreationTime = DateTime.UtcNow;
+        _dbContext.Notes.Add(note);
+        _dbContext.SaveChanges();
         return note.Id;
     }
     public void Update(int id, NoteUpdateDto dto)
     {
-        var note = _notes.FirstOrDefault(v => v.Id == id)
+        var note = _dbContext.Notes.FirstOrDefault(v => v.Id == id)
         ?? throw new NoteNotFoundException(id);
         _mapper.Map(dto, note);
+        _dbContext.SaveChanges();
     }
     public void Delete(int id)
     {
-        var note = _notes.FirstOrDefault(x => x.Id == id)
+        var note = _dbContext.Notes.FirstOrDefault(x => x.Id == id)
         ?? throw new NoteNotFoundException(id);
-        _notes.Remove(note);
+        _dbContext.Notes.Remove(note);
+        _dbContext.SaveChanges();
     }
 }

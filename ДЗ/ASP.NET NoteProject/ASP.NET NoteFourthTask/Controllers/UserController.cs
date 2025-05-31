@@ -23,7 +23,7 @@ public class UserController(IUserRepository repository) : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id }, id);
     }
     [HttpGet("{id}")]
-    public ActionResult<User> GetById(int id) 
+    public ActionResult<User> GetById(int id)
     {
         var user = repository.GetById(id);
         return user != null ? Ok(user) : NotFound();
