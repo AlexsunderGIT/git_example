@@ -1,6 +1,5 @@
 ﻿using ConsoleProject.NET.Models;
 using Microsoft.EntityFrameworkCore;
-
 namespace ConsoleProject.NET.Database;
 
 public class AppDbContext : DbContext
@@ -11,7 +10,9 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(Program).Assembly);
+        modelBuilder.Entity<User>()
+            .HasMany(z => z.Notes)
+            .WithOne(o => o.User)
+            .HasForeignKey(v => v.UserId);
     }
 }
