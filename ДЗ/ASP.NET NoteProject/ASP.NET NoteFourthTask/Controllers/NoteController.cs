@@ -10,44 +10,34 @@ namespace ConsoleProject.NET.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class NoteController : ControllerBase
+public class NoteController(INoteRepository noteRepository) : ControllerBase
 {
-    private readonly INoteRepository _noteRepository;
-    private readonly IUserRepository _userRepository;
-    private readonly IMapper _mapper;
-    public NoteController(INoteRepository noteRepository, IUserRepository userRepository, IMapper mapper)
-    {
-        _noteRepository = noteRepository;
-        _userRepository = userRepository;
-        _mapper = mapper;
-    }
-
     [HttpGet("user/{userId}")]
-    public ActionResult<IReadOnlyList<NoteVM>> GetByUser(int userId)
+    public ActionResult<IReadOnlyList<NoteVM>> GetByUser(int userId) 
+    => Ok(noteRepository.GetByUserId(userId));
+    [HttpGet("{id}")]
+    public ActionResult<NoteVM> GetById(int id)
     {
-        var notes = _noteRepository.GetByUserId(userId);
-        return Ok(_mapper.Map<IReadOnlyList<NoteVM>>(notes));
+        var note = noteRepository.GetById(id)
+        ?? throw new NoteNotFoundException(id);
+        return Ok(note);
     }
     [HttpPost]
     public ActionResult<NoteVM> Create(NoteAddDto dto)
     {
-        var note = _mapper.Map<Note>(dto);
-        var id = _noteRepository.Add(note);
-        return Ok(id);
+        var id = noteRepository.Add(dto);
+        return CreatedAtAction(nameof(GetById), new { id }, id);
     }
     [HttpPut("{id}")]
     public ActionResult Update(int id, NoteUpdateDto dto)
     {
-        var note = _noteRepository.GetById(id);
-
-        _mapper.Map(dto, note);
-        _noteRepository.Update(note);
+        noteRepository.Update(id, dto);
         return NoContent();
     }
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public ActionResult Delete(int id)
     {
-        _noteRepository.Delete(id);
+        noteRepository.Delete(id);
         return NoContent();
     }
 }
