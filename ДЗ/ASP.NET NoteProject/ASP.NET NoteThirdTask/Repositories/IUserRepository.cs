@@ -1,10 +1,12 @@
+using ConsoleProject.NET.Contract;
 using ConsoleProject.NET.Models;
+using Microsoft.AspNetCore.Hosting.Server;
 
 namespace ConsoleProject.NET.Repositories;
 
 public interface IUserRepository
 {
-    IReadOnlyList<User> GetUsers();
-    User? GetById(int id);
-    int Add(User user);
+    IReadOnlyList<UserVm> GetUsers();
+    UserVm? GetById(int id);
+    int Add(UserAddDto dto);
 }

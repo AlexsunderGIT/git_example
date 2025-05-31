@@ -1,75 +1,47 @@
-    using ConsoleProject.NET.Contract;
+using AutoMapper;
+using ConsoleProject.NET.Contract;
     using ConsoleProject.NET.Exceptions;
     using ConsoleProject.NET.Models;
 
     namespace ConsoleProject.NET.Repositories;
 
-public class NoteRepository : INoteRepository
+public class NoteRepository(IUserRepository userRepository, IMapper mapper) : INoteRepository
 {
     private readonly List<Note> _notes = new();
     private int _idCounter;
-    //
-    private readonly IUserRepository _userRepository;
-
-    public NoteRepository(IUserRepository userRepository)
+    private readonly IMapper _mapper = mapper;
+    public NoteVM? GetById(int id)
     {
-        _userRepository = userRepository;
-    }
-    //
-    public IEnumerable<Note> GetByUserId(int userId)
-    {
-        //
-        _userRepository.GetById(userId);
-        return _notes.Where(x => x.UserId == userId);
-        //
-        //_notes.Where(x => x.UserId == userId);
+        var note = _notes.FirstOrDefault(z => z.Id == id)
+            ?? throw new NoteNotFoundException(id);
+        return _mapper.Map<NoteVM>(note);
     }
 
-    public Note? GetById(int id)
+    public IReadOnlyList<NoteVM> GetByUserId(int userId)
     {
-        //
-        var note = _notes.FirstOrDefault(x => x.Id == id);
-        if (note == null)
-        {
-            throw new NoteNotFoundException();
-        }
-        return note;
-        //
-        //_notes.FirstOrDefault(x => x.Id == id);
+        userRepository.GetById(userId);
+        return _mapper.Map<IReadOnlyList<NoteVM>>(_notes.Where(o => o.UserId == userId));
     }
-
-    public int Add(Note note)
+    public int Add(NoteAddDto dto)
     {
-        //
-        if (_userRepository.GetById(note.UserId) == null)
-            throw new UserNotFoundException();
-        if (string.IsNullOrWhiteSpace(note.Title))
+        userRepository.GetById(dto.UserId);
+        if (string.IsNullOrWhiteSpace(dto.Title))
             throw new TitleIsRequired();
-        //
+        var note = _mapper.Map<Note>(dto);
         note.Id = _idCounter++;
-        //note.NoteCreationTime = DateTime.Now;
         _notes.Add(note);
         return note.Id;
     }
-    public void Update(Note note)
+    public void Update(int id, NoteUpdateDto dto)
     {
-        //
-        if (note == null)
-            throw new NoteNotFoundException();
-        //
-        var index = _notes.FindIndex(x => x.Id == note.Id);
-        if (index != -1) _notes[index] = note;
+        var note = _notes.FirstOrDefault(v => v.Id == id)
+        ?? throw new NoteNotFoundException(id);
+        _mapper.Map(dto, note);
     }
     public void Delete(int id)
     {
-        //
-        var note = _notes.FirstOrDefault(x => x.Id == id);
-        if (note == null)
-        {
-            throw new NoteNotFoundException();
-        }
+        var note = _notes.FirstOrDefault(x => x.Id == id)
+        ?? throw new NoteNotFoundException(id);
         _notes.Remove(note);
-        //
-        //_notes.RemoveAll(x => x.Id == id);
     }
 }

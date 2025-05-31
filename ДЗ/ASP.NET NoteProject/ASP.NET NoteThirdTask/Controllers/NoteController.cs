@@ -25,31 +25,21 @@ public class NoteController : ControllerBase
     [HttpGet("user/{userId}")]
     public ActionResult<IReadOnlyList<NoteVM>> GetByUser(int userId)
     {
-        //if (_userRepository.GetById(userId) == null)
-        //    throw new UserNotFoundException();
-
         var notes = _noteRepository.GetByUserId(userId);
-            return Ok(_mapper.Map<IReadOnlyList<NoteVM>>(notes));
+        return Ok(_mapper.Map<IReadOnlyList<NoteVM>>(notes));
     }
     [HttpPost]
-    public ActionResult<NoteVM> Create([FromBody] NoteAddDto dto)
+    public ActionResult<NoteVM> Create(NoteAddDto dto)
     {
-        //if (_userRepository.GetById(dto.UserId) == null)
-        //    throw new UserNotFoundException();
-
-        //if (string.IsNullOrWhiteSpace(dto.Title))
-        //    throw new TitleIsRequired();
-
         var note = _mapper.Map<Note>(dto);
         var id = _noteRepository.Add(note);
         return Ok(id);
     }
     [HttpPut("{id}")]
-    public IActionResult Update(int id, [FromBody] NoteUpdateDto dto)
+    public ActionResult Update(int id, NoteUpdateDto dto)
     {
         var note = _noteRepository.GetById(id);
-        //if (note == null)
-        //    throw new NoteNotFoundException();
+
         _mapper.Map(dto, note);
         _noteRepository.Update(note);
         return NoContent();
@@ -57,11 +47,6 @@ public class NoteController : ControllerBase
     [HttpDelete]
     public ActionResult Delete(int id)
     {
-        //var note = _noteRepository.GetById(id);
-        //if (note == null)
-        //{
-        //    throw new NoteNotFoundException();
-        //}
         _noteRepository.Delete(id);
         return NoContent();
     }

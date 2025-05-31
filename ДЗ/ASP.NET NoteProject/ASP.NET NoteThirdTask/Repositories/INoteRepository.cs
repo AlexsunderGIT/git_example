@@ -5,9 +5,9 @@ namespace ConsoleProject.NET.Repositories;
 
 public interface INoteRepository
 {
-    IEnumerable<Note> GetByUserId(int userId);
-    Note? GetById(int id);
-    int Add(Note note);
+    NoteVM? GetById(int id);
+    IReadOnlyList<NoteVM> GetByUserId(int userId);
+    int Add(NoteAddDto dto);
     void Delete(int id);
-    void Update(Note note);
+    void Update(int id, NoteUpdateDto dto);
 }

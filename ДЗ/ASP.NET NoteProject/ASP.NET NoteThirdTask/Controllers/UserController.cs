@@ -9,29 +9,23 @@ namespace ConsoleProject.NET.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 
-public class UserController : ControllerBase
+public class UserController(IUserRepository repository) : ControllerBase
 {
-    private readonly IUserRepository _repository;
-    public UserController(IUserRepository repository)
-    {
-        _repository = repository;
-    }
     [HttpGet]
-    public ActionResult<IReadOnlyList<User>> GetUsers()
+    public ActionResult<IReadOnlyList<UserVm>> GetUsers()
     {
-        return Ok(_repository.GetUsers());
+        return Ok(repository.GetUsers());
     }
     [HttpPost]
-    public ActionResult<int> Create([FromBody] UserAddDto dto)
+    public ActionResult<int> Create(UserAddDto dto)
     {
-        var user = new User { Name = dto.Name, Password = dto.Password };
-        var id = _repository.Add(user);
+        var id = repository.Add(dto);
         return CreatedAtAction(nameof(GetById), new { id }, id);
     }
     [HttpGet("{id}")]
     public ActionResult<User> GetById(int id) 
     {
-        var user = _repository.GetById(id);
+        var user = repository.GetById(id);
         return user != null ? Ok(user) : NotFound();
     }
 }
