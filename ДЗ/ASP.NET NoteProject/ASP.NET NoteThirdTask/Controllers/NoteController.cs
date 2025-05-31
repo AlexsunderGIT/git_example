@@ -14,7 +14,7 @@ public class NoteController(INoteRepository noteRepository) : ControllerBase
 {
     [HttpGet("user/{userId}")]
     public ActionResult<IReadOnlyList<NoteVM>> GetByUser(int userId) 
-    => Ok(noteRepository.GetByUserId);
+    => Ok(noteRepository.GetByUserId(userId));
     [HttpGet("{id}")]
     public ActionResult<NoteVM> GetById(int id)
     {
