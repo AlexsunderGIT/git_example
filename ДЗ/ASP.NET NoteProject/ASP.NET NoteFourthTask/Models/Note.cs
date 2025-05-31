@@ -23,9 +23,3 @@ public class Note
     public Priority Priority { get; set; }
     public int UserId { get; set; }
 }
-public enum Priority
-{
-    low,
-    mid,
-    high
-}
