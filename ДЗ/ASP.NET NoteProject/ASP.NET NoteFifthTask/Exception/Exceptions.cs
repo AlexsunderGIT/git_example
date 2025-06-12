@@ -2,11 +2,11 @@
 
 public class NoteNotFoundException : Exception
 {
-    public NoteNotFoundException(int id) : base($"Note not found") { }
+    public NoteNotFoundException(Guid id) : base($"Note not found") { }
 }
 public class UserNotFoundException : Exception
 {
-    public UserNotFoundException(int id) : base($"User not found") { }
+    public UserNotFoundException(Guid id) : base($"User not found") { }
 }
 public class NameIsRequired : Exception
 {

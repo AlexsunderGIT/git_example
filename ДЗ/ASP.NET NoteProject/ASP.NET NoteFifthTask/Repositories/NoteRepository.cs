@@ -1,4 +1,5 @@
 using AutoMapper;
+using ConsoleProject.NET.Abstractions;
 using ConsoleProject.NET.Contract;
 using ConsoleProject.NET.Database;
 using ConsoleProject.NET.Exceptions;
@@ -18,14 +19,14 @@ public class NoteRepository : INoteRepository
         _dbContext = dbContext;
         _mapper = mapper;
     }
-    public NoteVM? GetById(int id)
+    public NoteVM? GetById(Guid id)
     {
         var note = _dbContext.Notes.FirstOrDefault(z => z.Id == id)
             ?? throw new NoteNotFoundException(id);
         return _mapper.Map<NoteVM>(note);
     }
 
-    public IReadOnlyList<NoteVM> GetByUserId(int userId)
+    public IReadOnlyList<NoteVM> GetByUserId(Guid userId)
     {
         _userRepository.GetById(userId);
         var notes = _dbContext.Notes
@@ -33,7 +34,7 @@ public class NoteRepository : INoteRepository
             .ToList();
         return _mapper.Map<IReadOnlyList<NoteVM>>(notes);
     }
-    public int Add(NoteAddDto dto)
+    public Guid Add(NoteAddDto dto)
     {
         _userRepository.GetById(dto.UserId);
         if (string.IsNullOrWhiteSpace(dto.Title))
@@ -44,14 +45,14 @@ public class NoteRepository : INoteRepository
         _dbContext.SaveChanges();
         return note.Id;
     }
-    public void Update(int id, NoteUpdateDto dto)
+    public void Update(Guid id, NoteUpdateDto dto)
     {
         var note = _dbContext.Notes.FirstOrDefault(v => v.Id == id)
         ?? throw new NoteNotFoundException(id);
         _mapper.Map(dto, note);
         _dbContext.SaveChanges();
     }
-    public void Delete(int id)
+    public void Delete(Guid id)
     {
         var note = _dbContext.Notes.FirstOrDefault(x => x.Id == id)
         ?? throw new NoteNotFoundException(id);

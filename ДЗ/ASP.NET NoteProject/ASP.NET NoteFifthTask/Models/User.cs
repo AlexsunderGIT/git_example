@@ -15,8 +15,8 @@ namespace ConsoleProject.NET.Models;
 
 public class User
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public string Password { get; set; }
+    public Guid Id { get; set; }
+    public required string Name { get; set; } 
+    public required byte[] Password { get; set; } 
     public virtual ICollection<Note> Notes { get; set; } = new List<Note>();
 }
