@@ -40,21 +40,21 @@ public class UserController(IUserRepository repository, IAuthService authService
         }
         return Ok(result);
     }
-    [HttpGet]
-    public ActionResult<IReadOnlyList<UserVm>> GetUsers()
-    {
-        return Ok(repository.GetUsers());
-    }
-    [HttpPost]
-    public ActionResult<int> Create(UserAddDto dto)
-    {
-        var id = repository.Add(dto);
-        return CreatedAtAction(nameof(GetById), new { id }, id);
-    }
-    [HttpGet("{id}")]
-    public ActionResult<User> GetById(Guid id)
-    {
-        var user = repository.GetById(id);
-        return user != null ? Ok(user) : NotFound();
-    }
+    //[HttpGet]
+    //public ActionResult<IReadOnlyList<UserVm>> GetUsers()
+    //{
+    //    return Ok(repository.GetUsers());
+    //}
+    //[HttpPost]
+    //public ActionResult<int> Create(UserAddDto dto)
+    //{
+    //    var id = repository.Add(dto);
+    //    return CreatedAtAction(nameof(GetById), new { id }, id);
+    //}
+    //[HttpGet("{id}")]
+    //public ActionResult<User> GetById(Guid id)
+    //{
+    //    var user = repository.GetById(id);
+    //    return user != null ? Ok(user) : NotFound();
+    //}
 }

@@ -39,7 +39,7 @@ public static class Composer
                 .Bind(configuration.GetRequiredSection(nameof(JwtOptions)))
                 .ValidateDataAnnotations()
                 .ValidateOnStart();
-
+        services.AddSwaggerGen();
         services.AddTransient<IJwtTokenGenerator, JwtTokenGenerator>();
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -121,7 +121,6 @@ public static class Composer
     {
         services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
         return services;
     }
 

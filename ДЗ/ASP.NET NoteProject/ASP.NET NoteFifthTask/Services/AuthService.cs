@@ -3,6 +3,7 @@ using ConsoleProject.NET.Abstractions;
 using ConsoleProject.NET.Contract;
 using ConsoleProject.NET.Database;
 using ConsoleProject.NET.Models;
+using ConsoleProject.NET.Configurations;
 
 namespace ConsoleProject.NET.Services;
 
