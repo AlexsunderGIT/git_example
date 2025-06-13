@@ -28,7 +28,7 @@ public static class Composer
             .Bind(configuration.GetRequiredSection(nameof(ApplicationDbContextSettings)))
             .ValidateDataAnnotations()
             .ValidateOnStart();
-        services.Configure<ApplicationDbContextSettings>( 
+        services.Configure<ApplicationDbContextSettings>(
             configuration.GetRequiredSection(nameof(ApplicationDbContextSettings)));
 
         services.AddDbContext<AppDbContext>();
@@ -73,7 +73,6 @@ public static class Composer
                          // Валидация токена.
                          OnTokenValidated = context =>
                          {
-
                              // Так как мы пока еще в регистрации сервисов, мы только так сможем достать IAuthService.
                              var authService =
                                   context.HttpContext
@@ -96,7 +95,6 @@ public static class Composer
                          }
                      };
                  });
-
         services.AddScoped<IAuthorizationHandler, PostOwnerRequirementHandler>();
         services.AddHttpContextAccessor();
 
@@ -106,7 +104,7 @@ public static class Composer
             new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme);
             defaultAuthorizationPolicyBuilder.RequireAuthenticatedUser();
             options.DefaultPolicy = defaultAuthorizationPolicyBuilder.Build();
-        // Добавляем политику проверки пользователя из токена.
+            // Добавляем политику проверки пользователя из токена.
             options.AddPolicy("PostsOwner", policy =>
             {
                 // Перед тем как проверять пользователя, отсекаем всех не аутентифицированных.
@@ -115,7 +113,6 @@ public static class Composer
             });
         });
         return services;
-
     }
     public static IServiceCollection AddSwagger(this IServiceCollection services)
     {
@@ -123,6 +120,10 @@ public static class Composer
         services.AddEndpointsApiExplorer();
         return services;
     }
-
-
+    public static IServiceCollection AddApplicationServices(
+    this IServiceCollection services)
+    {
+        services.AddScoped<IAuthService, AuthService>();
+        return services;
+    }
 }

@@ -7,6 +7,7 @@ using SimpleExample;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddSwagger();
+builder.Services.AddApplicationServices();
 
 var app = builder.Build();
 app.UseExceptionHandler("/error");

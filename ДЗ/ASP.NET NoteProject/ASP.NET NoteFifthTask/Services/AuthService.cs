@@ -17,6 +17,20 @@ public class AuthService(
     // Примерно по этой же причины для userId я использовал guid. В отличии от числа, мы не можем пройтись по ним по возрастанию,
     // чтобы проверить, какие пользователи есть в системе, а какие нет.
     // Возвращаем именно объект, чтобы в будущем кое-что доработать.
+    public JwtTokenVm SignUp(SignUpDto dto)
+    {
+        var user = new User
+        {
+            Name = dto.UserName,
+            Password = PasswordHasher.HashPassword(dto.Password),
+        };
+        dbContext.Users.Add(user);
+        dbContext.SaveChanges();
+        var token = UpdateToken(user);
+        dbContext.SaveChanges();
+        // Сразу возвращаем токен после регистрации, чтобы можно было его использовать.
+        return token.ToJwtTokenVm();
+    }
     public JwtTokenVm? LogIn(LogInDto dto)
     {
         var user = dbContext.Users.FirstOrDefault(x => x.Name == dto.UserName);
@@ -45,20 +59,7 @@ public class AuthService(
         dbContext.SaveChanges();
         return true;
     }
-    public JwtTokenVm SignUp(SignUpDto dto)
-    {
-        var user = new User
-        {
-            Name = dto.UserName,
-            Password = PasswordHasher.HashPassword(dto.Password),
-        };
-        dbContext.Users.Add(user);
-        dbContext.SaveChanges();
-        var token = UpdateToken(user);
-        dbContext.SaveChanges();
-        // Сразу возвращаем токен после регистрации, чтобы можно было его использовать.
-        return token.ToJwtTokenVm();
-    }
+
     public bool VerifyToken(Guid userId, string token)
     {
         var jwtToken = dbContext.JwtTokens.FirstOrDefault(x => x.UserId == userId);
